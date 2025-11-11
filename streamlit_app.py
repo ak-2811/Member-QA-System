@@ -60,8 +60,8 @@ with st.sidebar:
     st.subheader("API Configuration")
     api_url = st.text_input(
         "API Endpoint URL",
-        value="http://backend:8000",
-        help="Enter the backend API URL (default: localhost:8000)"
+        value="https://member-qa-system-1.onrender.com",
+        help="Enter the backend API URL (default: localhost:10000)"
     )
     
     # Test connection
