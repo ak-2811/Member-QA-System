@@ -2,6 +2,12 @@
 
 A semantic search-based question answering system that helps you find information about member data using natural language queries. This system uses embeddings and similarity matching to understand questions and retrieve relevant member information.
 
+## Deployment
+
+Cureently it is deployed on Streamlit Cloud platform for the frontend and the backend is deployed on Render.
+- **Application Link**: https://member-app-system-ak.streamlit.app/
+- **Backend Check**: https://member-qa-system-1.onrender.com/health
+  
 ## Features
 
 - **Semantic Search**: Utilizes transformer-based embeddings to capture context and meaning.
@@ -21,30 +27,11 @@ A semantic search-based question answering system that helps you find informatio
 3. **Ranking**: Results are ranked by cosine similarity score (0-1)
 4. **Answer Generation**: Top matching member data is formatted and returned with confidence scores
 
-## System Architecture
-
-\`\`\`
-┌─────────────────────────────────────────────────────┐
-│           Streamlit Frontend (Port 8501)            │
-│  - Beautiful UI for asking questions                │
-│  - Question history tracking                        │
-│  - Confidence display and filtering                 │
-└────────────────────┬────────────────────────────────┘
-                     │
-                     │ HTTP Requests
-                     ↓
-┌─────────────────────────────────────────────────────┐
-│           FastAPI Backend (Port 8000)               │
-│  - Question processing                              │
-│  - Semantic embedding generation                    │
-│  - Similarity matching                              │
-│  - Member data retrieval from public API            │
-└─────────────────────────────────────────────────────┘
-\`\`\`
-
 ## Quick Start
 
 ### Using Docker (Recommended)
+
+In the Dockerfile change the localhost from 10000 to 8501 as currently it is set to the port where I have deployed it.
 
 \`\`\`bash
 docker-compose up --build
@@ -67,7 +54,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 2. **Install dependencies**
 \`\`\`bash
 pip install -r streamlit_requirements.txt
-pip install -r qa_backend/requirements.txt
+pip install -r requirements.txt
 \`\`\`
 
 3. **Start backend** (Terminal 1)
@@ -103,16 +90,6 @@ Response:
 }
 \`\`\`
 
-#### Health Check
-**GET** `/health`
-
-Response:
-\`\`\`json
-{
-  "status": "healthy"
-}
-\`\`\`
-
 ## Example Questions
 
 Try asking:
@@ -123,16 +100,13 @@ Try asking:
 
 ## Project Structure
 
-\`\`\`
-qa-system/
-├── streamlit_app.py              # Streamlit frontend
-├── streamlit_requirements.txt    # Frontend dependencies
-├── app.py                        # FastAPI backend
-├──requirements.txt               # Backend dependencies
-├── docker-compose.yml            # Docker Compose configuration
-├── Dockerfile                    # Backend Docker image
-├── README.md                     # This file   
-\`\`\`
+- **streamlit_app.py**              # Streamlit frontend
+- **streamlit_requirements.txt**    # Frontend dependencies
+- **app.py**                        # FastAPI backend
+- **requirements.txt**               # Backend dependencies
+- **docker-compose.yml**            # Docker Compose configuration
+- **Dockerfile**                    # Backend Docker image
+- **README.md**                     # This file   
 
 ## Performance Notes
 
@@ -151,10 +125,8 @@ qa-system/
 
 ## Troubleshooting
 
-### API Connection Error
-\`\`\`bash
 # Check if backend is running
-curl http://localhost:8000/health
+curl https://member-qa-system-1.onrender.com/health
 \`\`\`
 
 ### Semantic Search Not Finding Results
@@ -170,17 +142,16 @@ curl http://localhost:8000/health
 Uses pre-trained large language models from providers like OpenAI (GPT), Anthropic (Claude), or open-source models to understand and answer questions.
 
 ### How It Works
-\`\`\`
+
 Question: "When is Layla planning her trip to London?"
-    ↓
+    **->**
 Send to Claude/GPT with member data context
-    ↓
+    **->**
 Model reasons about the context
-    ↓
+    **->**
 Generates natural language answer
-    ↓
+    **->**
 Return formatted response
-\`\`\`
 
 ### Pros
 - Most human-like responses
